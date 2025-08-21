@@ -3,7 +3,7 @@ import { httpService } from "./http.service"
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
-const BASE_URL = 'auth/'
+const BASE_URL = 'http://localhost:3030/'
 const STORAGE_KEY_LOGGEDIN = 'loggedinUser'
 
 export const userService = {
@@ -18,8 +18,12 @@ export const userService = {
 }
 
 function query() { //change to httpService?
-    return axios.get(BASE_URL)
-        // .then(res => res.data)
+    
+    return httpService.get('user/')
+        .then(res => {
+            console.log(res)
+            return res
+        })
 }
 
 function login({ username, password }) {
