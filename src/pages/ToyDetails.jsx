@@ -48,7 +48,7 @@ export function ToyDetails() {
                     <Chat />
                 </PopUp>
             )}
-            <Link to={`/toy/edit/${toy._id}`}>Edit</Link>
+            <Link to={`/toy/edit/${toy._id}`}>Edit </Link>
             <Link to={`/toy`}>Back</Link>
             <div>
                 <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link> |

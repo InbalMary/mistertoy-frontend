@@ -13,7 +13,7 @@ export function ToyEdit() {
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const { toyId } = useParams()
 
-    // const isOnline = useOnlineStatus()
+    const isOnline = useOnlineStatus()
     const setHasUnsavedChanges = useConfirmTabClose()
 
     useEffect(() => {
@@ -54,6 +54,7 @@ export function ToyEdit() {
         saveToy(toyToEdit)
             .then(() => {
                 showSuccessMsg('Toy Saved!')
+                setHasUnsavedChanges(false)
                 navigate('/toy')
             })
             .catch(err => {
@@ -119,9 +120,9 @@ export function ToyEdit() {
                         <button>{toyToEdit._id ? 'Save' : 'Add'}</button>
                         <Link to="/toy">Cancel</Link>
                     </div>
-                    {/* <section>
+                    <section>
                         <h1>{isOnline ? '✅ Online' : '❌ Disconnected'}</h1>
-                    </section> */}
+                    </section>
                 </form>
             </section>
         </>
