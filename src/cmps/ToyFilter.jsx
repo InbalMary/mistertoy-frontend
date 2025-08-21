@@ -31,7 +31,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
             return { ...prev, labels }
         })
     }
-    
+
     return (
         <section className="toy-filter full main-layout">
             <h2>Toys Filter</h2>
@@ -71,6 +71,21 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     onUpdateLabels={handleUpdateLabels}
                 />
             </form>
+
+            <section className="toy-sort">
+                <label htmlFor="sort">Sort by:</label>
+                <select
+                    name="sort"
+                    id="sort"
+                    value={filterByToEdit.sort || ''}
+                    onChange={handleChange}
+                >
+                    <option value="">None</option>
+                    <option value="name">Name</option>
+                    <option value="price">Price</option>
+                    <option value="createdAt">Created</option>
+                </select>
+            </section>
 
         </section>
     )

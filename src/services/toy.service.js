@@ -29,18 +29,29 @@ function query(filterBy = {}) {
         .then(toys => {
             if (!filterBy.txt) filterBy.txt = ''
             if (!filterBy.price) filterBy.price = Infinity
-            if (filterBy.inStock === undefined) filterBy.inStock = undefined
             const inStockFilter = filterBy.inStock === 'true' ? true
                 : filterBy.inStock === 'false' ? false
                 : undefined
             const regExp = new RegExp(filterBy.txt, 'i')
-            return toys.filter(toy =>
+            let filteredToys = toys.filter(toy =>
                 regExp.test(toy.name) &&
                 toy.price <= filterBy.price &&
                 (inStockFilter === undefined || toy.inStock === inStockFilter) &&
                 (!filterBy.labels || filterBy.labels.length === 0 ||
                     filterBy.labels.every(label => toy.labels.includes(label)))
             )
+
+            if (filterBy.sort) {
+                if (filterBy.sort === 'name') {
+                    filteredToys = filteredToys.sort((a, b) => a.name.localeCompare(b.name))
+                } else if (filterBy.sort === 'price') {
+                    filteredToys = filteredToys.sort((a, b) => a.price - b.price)
+                } else if (filterBy.sort === 'createdAt') {
+                    filteredToys = filteredToys.sort((a, b) => a.createdAt - b.createdAt)
+                }
+            }
+
+            return filteredToys
         })
 }
 
