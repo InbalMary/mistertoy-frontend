@@ -10,9 +10,13 @@ export const userService = {
     getById,
     getLoggedinUser,
     updateScore,
-    getEmptyCredentials
+    getEmptyCredentials,
+    query
 }
 
+function query() {
+    return storageService.query(STORAGE_KEY)
+}
 
 function getById(userId) {
     return storageService.get(STORAGE_KEY, userId)

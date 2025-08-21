@@ -1,0 +1,23 @@
+.accordion-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 200px;
+    margin: auto;
+}
+
+.accordion-item {
+    text-align: start;
+    padding-inline: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #1391e0;
+    transition: all 0.5s ease;
+}
+
+.accordion-item summary {
+    cursor: pointer;
+    padding: 0.5rem;
+    font-weight: 600;
+}
