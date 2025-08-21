@@ -41,6 +41,10 @@ function query(filterBy = {}) {
 
 function getById(toyId) {
     return storageService.get(STORAGE_KEY, toyId)
+    .then(toy => {
+            toy = _setNextPrevToyId(toy)
+            return toy
+        })
 }
 
 function remove(toyId) {
@@ -73,7 +77,6 @@ function getEmptyToy() {
 function getRandomToy() {
     const name = toyNames[utilService.getRandomIntInclusive(0, toyNames.length - 1)]
     return {
-        _id: utilService.makeId(),
         name,
         imgUrl: 'https://robohash.org/' + utilService.makeId(),
         price: utilService.getRandomIntInclusive(50, 300),
@@ -92,7 +95,7 @@ function _createToys() {
     if (!toys || !toys.length) {
         toys = []
         for (let i = 0; i < 15; i++) {
-            toys.push(getRandomToy())
+            toys.push(_getRandomToyForInitialToys())
         }
         utilService.saveToStorage(STORAGE_KEY, toys)
     }
@@ -111,6 +114,29 @@ function _getRandomLabels() {
     return chosenLabels
 }
 
+function _getRandomToyForInitialToys() {
+    const name = toyNames[utilService.getRandomIntInclusive(0, toyNames.length - 1)]
+    return {
+        _id: utilService.makeId(),
+        name,
+        imgUrl: 'https://robohash.org/' + utilService.makeId(),
+        price: utilService.getRandomIntInclusive(50, 300),
+        labels: _getRandomLabels(),
+        createdAt: Date.now(),
+        inStock: Math.random() > 0.3,
+    }
+}
+
+function _setNextPrevToyId(toy) {
+    return storageService.query(STORAGE_KEY).then((toys) => {
+        const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
+        const nextToy = toys[toyIdx + 1] ? toys[toyIdx + 1] : toys[0]
+        const prevToy = toys[toyIdx - 1] ? toys[toyIdx - 1] : toys[toys.length - 1]
+        toy.nextToyId = nextToy._id
+        toy.prevToyId = prevToy._id
+        return toy
+    })
+}
 // TEST DATA
 // storageService.post(STORAGE_KEY, {vendor: 'Subali Rahok 6', price: 980}).then(x => console.log(x))
 

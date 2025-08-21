@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { toyService } from "../services/toy.service.js"
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, useParams } from "react-router-dom"
 
 // const { useEffect, useState } = React
 // const { Link, useParams } = ReactRouterDOM
@@ -19,21 +19,27 @@ export function ToyDetails() {
             .then(toy => setToy(toy))
             .catch(err => {
                 console.log('Had issues in toy details', err)
-                navigate('/toy')
+                Navigate('/toy')
             })
     }
     if (!toy) return <div>Loading...</div>
     return (
         <section className="toy-details">
-            <h1>Toy vendor : {toy.vendor}</h1>
+            <h1>Toy: {toy.name}</h1>
             <h5>Price: ${toy.price}</h5>
-            <p>⛐</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi voluptas cumque tempore, aperiam sed dolorum rem! Nemo quidem, placeat perferendis tempora aspernatur sit, explicabo veritatis corrupti perspiciatis repellat, enim quibusdam!</p>
+            <h5>In Stock: {toy.inStock === undefined ? 'All' : toy.inStock ? 'Yes' : 'No'}</h5>
+            <h5>Labels: {toy.labels.join(', ')}</h5>
+
+            <img src={toy.imgUrl} alt={toy.name} />
+            <h5>Our toys are crafted with the highest standards of safety and durability.
+                Each product is carefully tested to ensure long-lasting fun for children of all ages.
+                We take pride in offering toys that inspire creativity, learning, and joyful play.</h5>
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
             <Link to={`/toy`}>Back</Link>
-            <p>
-                <Link to="/toy/nJ5L4">Next Toy</Link>
-            </p>
+            <div>
+                <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link> |
+                <Link to={`/toy/${toy.nextToyId}`}> Next Toy</Link>
+            </div>
         </section>
     )
 }
