@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { toyService } from "../services/toy.service.js"
-import { Link, Navigate, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 
@@ -12,6 +12,7 @@ export function ToyDetails() {
     const [toy, setToy] = useState(null)
     const [isChatOpen, setIsChatOpen] = useState(false)
     const { toyId } = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (toyId) loadToy()
@@ -22,7 +23,7 @@ export function ToyDetails() {
             .then(toy => setToy(toy))
             .catch(err => {
                 console.log('Had issues in toy details', err)
-                Navigate('/toy')
+                navigate('/toy')
             })
     }
     if (!toy) return <div>Loading...</div>
