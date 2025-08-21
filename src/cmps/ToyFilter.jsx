@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { utilService } from "../services/util.service.js"
+import { LabelPicker } from "./LabelPicker.jsx"
 
 
 export function ToyFilter({ filterBy, onSetFilter }) {
@@ -19,37 +20,56 @@ export function ToyFilter({ filterBy, onSetFilter }) {
         setFilterByToEdit((prevFilter) => ({ ...prevFilter, [field]: value }))
     }
 
+    function handleUpdateLabels(label, action) {
+        setToyToEdit(prev => {
+            let labels = prev.labels || []
+            if (action === 'add') {
+                if (!labels.includes(label)) labels.push(label)
+            } else if (action === 'remove') {
+                labels = labels.filter(lbl => lbl !== label)
+            }
+            return { ...prev, labels }
+        })
+    }
+    
     return (
         <section className="toy-filter full main-layout">
             <h2>Toys Filter</h2>
             <form >
-                <label htmlFor="vendor">Vendor:</label>
+                <label htmlFor="name">Toy Name:</label>
                 <input type="text"
-                    id="vendor"
+                    id="name"
                     name="txt"
-                    placeholder="By vendor"
+                    placeholder="By name"
                     value={filterByToEdit.txt}
                     onChange={handleChange}
                 />
 
-                <label htmlFor="maxPrice">Max price:</label>
+                <label htmlFor="price"> Max price:</label>
                 <input type="number"
-                    id="maxPrice"
-                    name="maxPrice"
+                    id="price"
+                    name="price"
                     placeholder="By max price"
-                    value={filterByToEdit.maxPrice || ''}
+                    value={filterByToEdit.price || ''}
                     onChange={handleChange}
                 />
 
-                <label htmlFor="minSpeed">Min Speed:</label>
-                <input type="number"
-                    id="minSpeed"
-                    name="minSpeed"
-                    placeholder="By min speed"
-                    value={filterByToEdit.minSpeed || ''}
+                <label htmlFor="inStock"> In Stock:</label>
+                <select
+                    name="inStock"
+                    id="inStock"
+                    value={filterByToEdit.inStock === undefined ? '' : filterByToEdit.inStock}
                     onChange={handleChange}
-                />
+                >
+                    <option value="">All</option>
+                    <option value={true}>Yes</option>
+                    <option value={false}>No</option>
+                </select>
 
+                <LabelPicker
+                    selectedLabels={filterByToEdit.labels || []}
+                    onUpdateLabels={handleUpdateLabels}
+                />
             </form>
 
         </section>

@@ -28,20 +28,25 @@ function query(filterBy = {}) {
     return storageService.query(STORAGE_KEY)
         .then(toys => {
             if (!filterBy.txt) filterBy.txt = ''
-            if (!filterBy.maxPrice) filterBy.maxPrice = Infinity
+            if (!filterBy.price) filterBy.price = Infinity
             if (filterBy.inStock === undefined) filterBy.inStock = undefined
+            const inStockFilter = filterBy.inStock === 'true' ? true
+                : filterBy.inStock === 'false' ? false
+                : undefined
             const regExp = new RegExp(filterBy.txt, 'i')
             return toys.filter(toy =>
                 regExp.test(toy.name) &&
-                toy.price <= filterBy.maxPrice &&
-                (filterBy.inStock === undefined || toy.inStock === filterBy.inStock)
+                toy.price <= filterBy.price &&
+                (inStockFilter === undefined || toy.inStock === inStockFilter) &&
+                (!filterBy.labels || filterBy.labels.length === 0 ||
+                    filterBy.labels.every(label => toy.labels.includes(label)))
             )
         })
 }
 
 function getById(toyId) {
     return storageService.get(STORAGE_KEY, toyId)
-    .then(toy => {
+        .then(toy => {
             toy = _setNextPrevToyId(toy)
             return toy
         })
@@ -87,7 +92,7 @@ function getRandomToy() {
 }
 
 function getDefaultFilter() {
-    return { txt: '', maxPrice: '', inStock: undefined }
+    return { txt: '', price: '', inStock: undefined }
 }
 
 function _createToys() {
