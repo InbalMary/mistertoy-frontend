@@ -36,9 +36,7 @@ function save(toy) {
     if (toy._id) {
         return httpService.put(BASE_URL + toy._id, toy)
     } else {
-        // when switching to backend - remove the next line
-        // toy.owner = userService.getLoggedinUser()
-        return storageService.post(STORAGE_KEY, toy)
+        return httpService.post(BASE_URL, toy)
     }
 }
 
@@ -46,7 +44,7 @@ function save(toy) {
 function getEmptyToy() {
     return {
         name: '',
-        imgUrl: '',
+        imgUrl: 'https://robohash.org/' + utilService.makeId(),
         price: '',
         labels: [],
         createdAt: Date.now(),
