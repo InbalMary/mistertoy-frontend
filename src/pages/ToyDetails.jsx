@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { toyService } from "../services/toy.service.js"
 import { Link, Navigate, useParams } from "react-router-dom"
+import { PopUp } from "../cmps/PopUp.jsx"
+import { Chat } from "../cmps/Chat.jsx"
 
 // const { useEffect, useState } = React
 // const { Link, useParams } = ReactRouterDOM
@@ -8,6 +10,7 @@ import { Link, Navigate, useParams } from "react-router-dom"
 
 export function ToyDetails() {
     const [toy, setToy] = useState(null)
+    const [isChatOpen, setIsChatOpen] = useState(false)
     const { toyId } = useParams()
 
     useEffect(() => {
@@ -34,7 +37,18 @@ export function ToyDetails() {
             <h5>Our toys are crafted with the highest standards of safety and durability.
                 Each product is carefully tested to ensure long-lasting fun for children of all ages.
                 We take pride in offering toys that inspire creativity, learning, and joyful play.</h5>
-            <Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
+
+            <button className="chat-icon" onClick={() => setIsChatOpen(true)}>Chat 🗨️</button>
+            {isChatOpen && (
+                <PopUp
+                    heading='Welcome to Chat Support! 💁🏻‍♀️'
+                    footing={<button onClick={() => setIsChatOpen(false)}>Close ✖️</button>}
+                    onClose={() => setIsChatOpen(false)}
+                >
+                    <Chat />
+                </PopUp>
+            )}
+            <Link to={`/toy/edit/${toy._id}`}>Edit</Link>
             <Link to={`/toy`}>Back</Link>
             <div>
                 <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link> |
