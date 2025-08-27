@@ -71,6 +71,7 @@ export function ToyIndex() {
         dispatch({ type: ADD_TOY_TO_CART, toy })
         showSuccessMsg('Added to Cart')
     }
+    console.log('Index Render')
 
     return (
         <div>
