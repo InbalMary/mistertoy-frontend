@@ -12,8 +12,12 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     onSetFilter = useRef(utilService.debounce(onSetFilter, 300))
 
     useEffectUpdate(() => {
-        onSetFilter.current(filterByToEdit)
-    }, [filterByToEdit])
+    const processedFilter = { ...filterByToEdit }
+    if (processedFilter.labels && Array.isArray(processedFilter.labels)) {
+        processedFilter.labels = processedFilter.labels.join(',')
+    }
+    onSetFilter.current(processedFilter)
+}, [filterByToEdit])
 
     function handleChange({ target }) {
         let { value, name: field, type } = target
@@ -22,7 +26,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     }
 
     function handleUpdateLabels(label, action) {
-        setToyToEdit(prev => {
+        setFilterByToEdit(prev => {
             let labels = prev.labels || []
             if (action === 'add') {
                 if (!labels.includes(label)) labels.push(label)
