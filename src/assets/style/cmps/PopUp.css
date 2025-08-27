@@ -8,15 +8,45 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .popup {
   background-color: #fff;
   padding: 20px 30px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   max-width: 400px;
   width: 90%;
   text-align: center;
+}
+
+
+.popup-header {
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+  font-weight: bold;
+  font-family: 'Edu VIC WA NT Beginner', cursive;
+}
+
+.popup-main {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.popup-footer {
+  padding: 0.5rem;
+  border-top: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  background-color: #007bff;
+  ;
+}
+
+.popup button {
+  font-weight: bold;
+  font-family: 'Edu VIC WA NT Beginner', cursive;
+  font-size: large;
 }

@@ -12,9 +12,9 @@ export function PopUp({ heading, footing, children, onClose }) {
         <section className="popup-backdrop"
             onClick={(ev) => ev.target === ev.currentTarget && onClose && onClose()}>
             <div className="popup">
-                <header>{heading}</header>
-                <main>{children}</main>
-                <footer>{footing}</footer>
+                <header className="popup-header">{heading}</header>
+                <main className="popup-main">{children}</main>
+                <footer className="popup-footer">{footing}</footer>
             </div>
         </section>
     )

@@ -27,7 +27,7 @@ export function Chat() {
         setInput('')
 
         setTimeout(() => {
-            setMsgs((prev) => [...prev, { from: 'support', text: 'Sure thing honey' }])
+            setMsgs((prev) => [...prev, { from: 'support', text: 'Sure thing honey', timestamp: new Date().toLocaleTimeString() }])
         }, 500)
     }
 
@@ -42,7 +42,7 @@ export function Chat() {
         <div className="chat-container">
             <div ref={msgsRef} className="chat-messages">
                 {msgs.map((msg, idx) => (
-                    <div key={idx} className={`message ${msg.from === 'user' ? 'user' : 'other'}`}>
+                    <div key={idx} className={`message ${msg.from === from ? 'user' : 'other'}`}>
                         <section>
                             <span className="timestamp">{msg.timestamp}</span>
                             <h3>{msg.from === 'user' ? 'You' : msg.from}: </h3>
