@@ -31,7 +31,7 @@ export function ToyDetails() {
         <section className="toy-details">
             <h1>Toy: {toy.name}</h1>
             <h5>Price: ${toy.price}</h5>
-            <h5>In Stock: {toy.inStock === undefined ? 'All' : toy.inStock ? 'Yes' : 'No'}</h5>
+            <h5 className={toy.inStock ? 'green' : 'red'}>In Stock: {toy.inStock === undefined ? 'All' : toy.inStock ? 'Yes' : 'No'}</h5>
             <h5>Labels: {toy.labels.join(', ')}</h5>
 
             <img src={toy.imgUrl} alt={toy.name} />
@@ -39,18 +39,20 @@ export function ToyDetails() {
                 Each product is carefully tested to ensure long-lasting fun for children of all ages.
                 We take pride in offering toys that inspire creativity, learning, and joyful play.</h5>
 
-            {!isChatOpen && <button className="chat-icon" onClick={() => setIsChatOpen(true)}>Chat 🗨️</button>}
-            {isChatOpen && (
-                <PopUp
-                    heading='Welcome to Chat Support! 💁🏻‍♀️'
-                    footing={<button onClick={() => setIsChatOpen(false)}>Close ✖️</button>}
-                    onClose={() => setIsChatOpen(false)}
-                >
-                    <Chat />
-                </PopUp>
-            )}
-            <Link to={`/toy/edit/${toy._id}`}>Edit </Link>
-            <Link to={`/toy`}>Back</Link>
+            <div className="action-btns">
+                {!isChatOpen && <button className="chat-icon" onClick={() => setIsChatOpen(true)}>Chat 🗨️</button>}
+                {isChatOpen && (
+                    <PopUp
+                        heading='Welcome to Chat Support! 💁🏻‍♀️'
+                        footing={<button onClick={() => setIsChatOpen(false)}>Close ✖️</button>}
+                        onClose={() => setIsChatOpen(false)}
+                    >
+                        <Chat />
+                    </PopUp>
+                )}
+                <Link to={`/toy/edit/${toy._id}`}>Edit </Link>
+                <Link className='back-btn' to={`/toy`}>Back</Link>
+            </div>
             <div>
                 <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link> |
                 <Link to={`/toy/${toy.nextToyId}`}> Next Toy</Link>
