@@ -39,7 +39,7 @@ export function ToyDetails() {
                 Each product is carefully tested to ensure long-lasting fun for children of all ages.
                 We take pride in offering toys that inspire creativity, learning, and joyful play.</h5>
 
-            <button className="chat-icon" onClick={() => setIsChatOpen(true)}>Chat 🗨️</button>
+            {!isChatOpen && <button className="chat-icon" onClick={() => setIsChatOpen(true)}>Chat 🗨️</button>}
             {isChatOpen && (
                 <PopUp
                     heading='Welcome to Chat Support! 💁🏻‍♀️'
