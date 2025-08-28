@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { utilService } from "../services/util.service.js"
 import { LabelPicker } from "./LabelPicker.jsx"
 import { useEffectUpdate } from "../hooks/useEffectUpdate.js"
+import { LabelMultiSelect } from "./LabelMultiSelect.jsx"
 
 
 export function ToyFilter({ filterBy, onSetFilter }) {
@@ -12,12 +13,12 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     onSetFilter = useRef(utilService.debounce(onSetFilter, 300))
 
     useEffectUpdate(() => {
-    const processedFilter = { ...filterByToEdit }
-    if (processedFilter.labels && Array.isArray(processedFilter.labels)) {
-        processedFilter.labels = processedFilter.labels.join(',')
-    }
-    onSetFilter.current(processedFilter)
-}, [filterByToEdit])
+        const processedFilter = { ...filterByToEdit }
+        if (processedFilter.labels && Array.isArray(processedFilter.labels)) {
+            processedFilter.labels = processedFilter.labels.join(',')
+        }
+        onSetFilter.current(processedFilter)
+    }, [filterByToEdit])
 
     function handleChange({ target }) {
         let { value, name: field, type } = target
@@ -71,6 +72,11 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     <option value={false}>No</option>
                 </select>
 
+                <LabelMultiSelect
+                    selectedLabels={filterByToEdit.labels || []}
+                    onUpdateLabels={(labels) => { setFilterByToEdit(prev => ({ ...prev, labels }))
+                    }}
+                />
                 <LabelPicker
                     selectedLabels={filterByToEdit.labels || []}
                     onUpdateLabels={handleUpdateLabels}

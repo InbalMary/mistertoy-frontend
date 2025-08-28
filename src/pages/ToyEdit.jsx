@@ -7,6 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { useOnlineStatus } from "../hooks/useOnlineStatus.js"
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
 import { LabelPicker } from '../cmps/LabelPicker.jsx'
+import { LabelMultiSelect } from "../cmps/LabelMultiSelect.jsx"
 
 export function ToyEdit() {
     const navigate = useNavigate()
@@ -97,10 +98,15 @@ export function ToyEdit() {
                         onChange={handleChange}
                     />
 
-                    <LabelPicker
+                    <LabelMultiSelect
+                        selectedLabels={toyToEdit.labels || []}
+                        onUpdateLabels={(labels) => setToyToEdit(prev => ({ ...prev, labels }))}
+                    />
+
+                    {/* <LabelPicker
                         selectedLabels={toyToEdit.labels ? [...toyToEdit.labels] : []}
                         onUpdateLabels={handleUpdateLabels}
-                    />
+                    /> */}
 
 
                     <label htmlFor="inStock">In Stock: </label>
