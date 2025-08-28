@@ -6,6 +6,13 @@ import { LabelPicker } from "./LabelPicker.jsx"
 import { useEffectUpdate } from "../hooks/useEffectUpdate.js"
 import { LabelMultiSelect } from "./LabelMultiSelect.jsx"
 
+import Box from '@mui/material/Box'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField';
+
 
 export function ToyFilter({ filterBy, onSetFilter }) {
 
@@ -42,25 +49,51 @@ export function ToyFilter({ filterBy, onSetFilter }) {
         <section className="toy-filter full main-layout">
             <h2>Toys Filter</h2>
             <form >
-                <label htmlFor="name">Toy Name:</label>
-                <input type="text"
-                    id="name"
-                    name="txt"
-                    placeholder="By name"
-                    value={filterByToEdit.txt}
-                    onChange={handleChange}
-                />
+                <div className="filter-bar">
+                    {/* <label htmlFor="name">Toy Name:</label> */}
+                    {/* <input type="text" */}
+                    <TextField
+                        id="name"
+                        name="txt"
+                        label="Search Toy Name.."
+                        variant="outlined"
+                        // placeholder="By name"
+                        value={filterByToEdit.txt}
+                        onChange={handleChange}
+                    />
 
-                <label htmlFor="price"> Max price:</label>
-                <input type="number"
-                    id="price"
-                    name="price"
-                    placeholder="By max price"
-                    value={filterByToEdit.price || ''}
-                    onChange={handleChange}
-                />
+                    {/* <label htmlFor="price"> Max price:</label> */}
+                    {/* <input type="number" */}
+                    <TextField
+                        id="price"
+                        name="price"
+                        label="Enter Max Price.."
+                        type="number"
+                        variant="outlined"
+                        // placeholder="By max price"
+                        value={filterByToEdit.price || ''}
+                        onChange={handleChange}
+                    />
 
-                <label htmlFor="inStock"> In Stock:</label>
+                    <Box sx={{ width: 120 }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="inStock-label">In Stock</InputLabel>
+                            <Select
+                                labelId="inStock-label"
+                                id="inStock"
+                                name="inStock"
+                                value={filterByToEdit.inStock === undefined ? '' : filterByToEdit.inStock}
+                                label="In Stock"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value="">All</MenuItem>
+                                <MenuItem value={true}>Yes</MenuItem>
+                                <MenuItem value={false}>No</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                    {/* <label htmlFor="inStock"> In Stock:</label>
                 <select
                     name="inStock"
                     id="inStock"
@@ -70,20 +103,42 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     <option value="">All</option>
                     <option value={true}>Yes</option>
                     <option value={false}>No</option>
-                </select>
+                </select> */}
 
-                <LabelMultiSelect
-                    selectedLabels={filterByToEdit.labels || []}
-                    onUpdateLabels={(labels) => { setFilterByToEdit(prev => ({ ...prev, labels }))
-                    }}
-                />
-                <LabelPicker
+                    <LabelMultiSelect
+                        selectedLabels={filterByToEdit.labels || []}
+                        onUpdateLabels={(labels) => {
+                            setFilterByToEdit(prev => ({ ...prev, labels }))
+                        }}
+                    />
+                    {/* <LabelPicker
                     selectedLabels={filterByToEdit.labels || []}
                     onUpdateLabels={handleUpdateLabels}
-                />
+                /> */}
+
+                    <Box sx={{ width: 120 }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="sort-label">Sort by</InputLabel>
+                            <Select
+                                labelId="sort-label"
+                                id="sort"
+                                name="sort"
+                                value={filterByToEdit.sort || ''}
+                                label="Sort by"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value="">None</MenuItem>
+                                <MenuItem value="name">Name</MenuItem>
+                                <MenuItem value="price">Price</MenuItem>
+                                <MenuItem value="createdAt">Created</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                </div>
             </form>
 
-            <section className="toy-sort">
+            {/* <section className="toy-sort">
                 <label htmlFor="sort">Sort by:</label>
                 <select
                     name="sort"
@@ -96,7 +151,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     <option value="price">Price</option>
                     <option value="createdAt">Created</option>
                 </select>
-            </section>
+            </section> */}
 
         </section>
     )

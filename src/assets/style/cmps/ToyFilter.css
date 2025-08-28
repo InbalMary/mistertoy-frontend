@@ -2,3 +2,10 @@
     background-color: var(--clr2bg);
     padding: 1em;
 }
+
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
