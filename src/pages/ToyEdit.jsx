@@ -12,6 +12,8 @@ import { LabelMultiSelect } from "../cmps/LabelMultiSelect.jsx"
 import { Button, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+
 
 function CustomInput(props) {
     return (
@@ -125,18 +127,28 @@ export function ToyEdit() {
                             />
                             {errors.imgUrl && touched.imgUrl && <div className="errors">{errors.imgUrl}</div>}
 
-                            <label>Labels:</label>
                             <LabelMultiSelect
                                 selectedLabels={values.labels || []}
                                 onUpdateLabels={(labels) => setFieldValue('labels', labels)}
                             />
 
-                            <label htmlFor="inStock">In Stock:</label>
-                            <Field as="select" name="inStock">
-                                <option value="">All</option>
-                                <option value={true}>Yes</option>
-                                <option value={false}>No</option>
-                            </Field>
+                            <Box sx={{ width: 200 }}>
+                                <FormControl fullWidth variant="standard">
+                                    <InputLabel id="inStock-label">In Stock</InputLabel>
+                                    <Select
+                                        labelId="inStock-label"
+                                        id="inStock"
+                                        name="inStock"
+                                        value={values.inStock === undefined ? '' : values.inStock}
+                                        onChange={(ev) => setFieldValue('inStock', ev.target.value)}
+                                        label="In Stock"
+                                    >
+                                        <MenuItem value="">All</MenuItem>
+                                        <MenuItem value={true}>Yes</MenuItem>
+                                        <MenuItem value={false}>No</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
 
                             <div className="actions">
                                 <Button type="submit" variant="contained">
