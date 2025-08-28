@@ -28,6 +28,7 @@
 @import 'cmps/Chat.css';
 @import 'cmps/ToyDetails.css';
 
+@import "cmps/google-map.css";
 
 .app {
     display: flex;
