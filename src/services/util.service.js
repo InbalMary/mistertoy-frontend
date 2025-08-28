@@ -5,7 +5,8 @@ export const utilService = {
     loadFromStorage,
     saveToStorage,
     animateCSS,
-    debounce
+    debounce,
+    getRandomDate
 }
 
 function makeId(length = 6) {
@@ -70,4 +71,11 @@ function debounce(func, timeout = 300) {
             func.apply(this, args)
         }, timeout)
     }
+}
+
+function getRandomDate(daysBack = 30) {
+    const now = Date.now()
+    const past = now - daysBack * 24 * 60 * 60 * 1000
+    const randomTime = Math.floor(Math.random() * (now - past)) + past
+    return new Date(randomTime).toISOString().split('T')[0]  // YYYY-MM-DD
 }
