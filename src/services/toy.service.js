@@ -16,7 +16,9 @@ export const toyService = {
     remove,
     getEmptyToy,
     getDefaultFilter,
-    getRandomToy
+    getRandomToy,
+    getToyLabels,
+    getPricesPerLabel
 }
 
 function query(filterBy = {}) {
@@ -73,6 +75,15 @@ function getRandomToy() {
         inStock: Math.random() > 0.3,
     }
 }
+
+function getToyLabels() {
+    return httpService.get(BASE_URL + 'labels')
+}
+
+function getPricesPerLabel() {
+    return httpService.get(BASE_URL + 'prices-per-label')
+}
+
 
 function _getRandomLabels(allLabels) {
     const count = utilService.getRandomIntInclusive(3, 4)
