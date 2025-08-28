@@ -24,13 +24,15 @@ export function LabelMultiSelect({ selectedLabels = [], onUpdateLabels }) {
 
     useEffect(() => {
         toyService.getToyLabels().then(setAllLabels)
-    }, [allLabels])
+    }, [])
 
     function handleChange(event) {
         const { value } = event.target
         const newSelected = typeof value === 'string' ? value.split(',') : value
         onUpdateLabels(newSelected)
     }
+
+    const safeSelectedLabels = Array.isArray(selectedLabels) ? selectedLabels : []
 
     return (
         <FormControl sx={{ m: 1, width: 150 }}>
@@ -39,15 +41,15 @@ export function LabelMultiSelect({ selectedLabels = [], onUpdateLabels }) {
                 labelId="label-multi-select-label"
                 id="label-multi-select"
                 multiple
-                value={selectedLabels}
+                value={safeSelectedLabels}
                 onChange={handleChange}
                 input={<OutlinedInput label="Labels" />}
-                renderValue={(selected) => selected.join(', ')}
+                renderValue={(selected) => Array.isArray(selected) ? selected.join(', ') : ''}
                 MenuProps={MenuProps}
             >
                 {allLabels.map(label => (
                     <MenuItem key={label} value={label}>
-                        <Checkbox checked={selectedLabels.includes(label)} />
+                        <Checkbox checked={safeSelectedLabels.includes(label)} />
                         <ListItemText primary={label} />
                     </MenuItem>
                 ))}
