@@ -7,16 +7,17 @@ import { utilService } from '../services/util.service';
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, TimeScale);
 
 export function ToyDashboard() {
-    const [data, setData] = useState(null)
+    const [avgPriceData, setAvgPriceData] = useState(null)
     const [inventoryData, setInventoryData] = useState(null)
     const [lineData, setLineData] = useState(null)
 
     useEffect(() => {
-        toyService.getPricesPerLabel().then(pricesMap => {
-            const labels = Object.keys(pricesMap)
-            const avgPrices = labels.map(label => pricesMap[label].avgPrice)
+        toyService.getStatsPerLabel().then(statsMap => {
+            const labels = Object.keys(statsMap)
+            const avgPrices = labels.map(label => statsMap[label].avgPrice)
+            const inStockPercentages = labels.map(label => statsMap[label].percent)
 
-            setData({
+            setAvgPriceData({
                 labels,
                 datasets: [
                     {
@@ -42,18 +43,13 @@ export function ToyDashboard() {
                     },
                 ],
             })
-        })
-
-        toyService.getInventoryByLabel().then(inventoryMap => {
-            const labels = Object.keys(inventoryMap)
-            const percentages = labels.map(label => inventoryMap[label].percent)
 
             setInventoryData({
                 labels,
                 datasets: [
                     {
                         label: 'In Stock Percentage per Label',
-                        data: percentages,
+                        data: inStockPercentages,
                         backgroundColor: [
                             'rgba(75, 192, 192, 0.2)',
                             'rgba(255, 159, 64, 0.2)',
@@ -93,20 +89,17 @@ export function ToyDashboard() {
         })
     }, [])
 
-    if (!data) return <div>Loading...</div>
+    if (!avgPriceData || !inventoryData || !lineData) return <div>Loading...</div>
 
     return (
         <section className="my-chart">
             <h2>Toys Dashboard</h2>
-            <h1>Bar Chart- Average Toys Prices per Label</h1>
-            <Bar data={data} />
 
-            {inventoryData && (
-                <>
-                    <h1>Bar Chart- In Stock Percentage per Label</h1>
-                    <Bar data={inventoryData} />
-                </>
-            )}
+            <h1>Bar Chart - Average Toys Prices per Label</h1>
+            <Bar data={avgPriceData} />
+
+            <h1>Bar Chart - In Stock Percentage per Label</h1>
+            <Bar data={inventoryData} />
 
             <h1>Line Chart - Random Values Over Time</h1>
             <Line data={lineData} />
