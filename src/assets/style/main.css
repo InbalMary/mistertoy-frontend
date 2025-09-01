@@ -29,6 +29,7 @@
 @import 'cmps/ToyDetails.css';
 
 @import "cmps/google-map.css";
+@import "cmps/forms.css";
 
 .app {
     display: flex;

@@ -7,9 +7,9 @@
     flex-direction: column;
     align-items: center;
 
-    input {
+    /* input {
         margin-bottom: 2em;
-    }
+    } */
 }
 
 .toy-edit .actions {
@@ -17,4 +17,10 @@
     display: flex;
     align-items: center;
     gap: 1em;
+}
+
+.toy-edit .form-grid {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
 }

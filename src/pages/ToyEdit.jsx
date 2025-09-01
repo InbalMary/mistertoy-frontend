@@ -17,7 +17,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 
 function CustomInput(props) {
     return (
-        <TextField {...props} variant="standard" />
+        <TextField {...props} variant="outlined" />
     )
 }
 
@@ -105,56 +105,58 @@ export function ToyEdit() {
 
                     return (
                         <Form className={`formik ${validationClass}`}>
-                            <Field
-                                as={CustomInput}
-                                label="Toy Name"
-                                name="name"
-                            />
-                            {errors.name && touched.name && <div className="errors">{errors.name}</div>}
+                            <div className="form-grid">
+                                <Field
+                                    as={CustomInput}
+                                    label="Toy Name"
+                                    name="name"
+                                />
+                                {errors.name && touched.name && <div className="errors">{errors.name}</div>}
 
-                            <Field
-                                as={CustomInput}
-                                label="Price"
-                                name="price"
-                                type="number"
-                            />
-                            {errors.price && touched.price && <div className="errors">{errors.price}</div>}
+                                <Field
+                                    as={CustomInput}
+                                    label="Price"
+                                    name="price"
+                                    type="number"
+                                />
+                                {errors.price && touched.price && <div className="errors">{errors.price}</div>}
 
-                            <Field
-                                as={CustomInput}
-                                label="Image URL"
-                                name="imgUrl"
-                            />
-                            {errors.imgUrl && touched.imgUrl && <div className="errors">{errors.imgUrl}</div>}
+                                <Field
+                                    as={CustomInput}
+                                    label="Image URL"
+                                    name="imgUrl"
+                                />
+                                {errors.imgUrl && touched.imgUrl && <div className="errors">{errors.imgUrl}</div>}
 
-                            <LabelMultiSelect
-                                selectedLabels={values.labels || []}
-                                onUpdateLabels={(labels) => setFieldValue('labels', labels)}
-                            />
+                                <LabelMultiSelect
+                                    selectedLabels={values.labels || []}
+                                    onUpdateLabels={(labels) => setFieldValue('labels', labels)}
+                                />
 
-                            <Box sx={{ width: 200 }}>
-                                <FormControl fullWidth variant="standard">
-                                    <InputLabel id="inStock-label">In Stock</InputLabel>
-                                    <Select
-                                        labelId="inStock-label"
-                                        id="inStock"
-                                        name="inStock"
-                                        value={values.inStock === undefined ? '' : values.inStock}
-                                        onChange={(ev) => setFieldValue('inStock', ev.target.value)}
-                                        label="In Stock"
-                                    >
-                                        <MenuItem value="">All</MenuItem>
-                                        <MenuItem value={true}>Yes</MenuItem>
-                                        <MenuItem value={false}>No</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Box>
+                                <Box sx={{ width: 200 }}>
+                                    <FormControl fullWidth variant="outlined">
+                                        <InputLabel id="inStock-label">In Stock</InputLabel>
+                                        <Select
+                                            labelId="inStock-label"
+                                            id="inStock"
+                                            name="inStock"
+                                            value={values.inStock === undefined ? '' : values.inStock}
+                                            onChange={(ev) => setFieldValue('inStock', ev.target.value)}
+                                            label="In Stock"
+                                        >
+                                            <MenuItem value="">All</MenuItem>
+                                            <MenuItem value={true}>Yes</MenuItem>
+                                            <MenuItem value={false}>No</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                            </div>
 
                             <div className="actions">
                                 <Button type="submit" variant="contained">
                                     {toyToEdit._id ? 'Save' : 'Add'}
                                 </Button>
-                                <Link to="/toy">Cancel</Link>
+                                <Button ><Link to="/toy">Cancel</Link></Button>
                             </div>
 
                             <section>

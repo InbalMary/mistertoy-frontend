@@ -1,0 +1,22 @@
+input,
+button {
+    padding: 0.4em 0.8em;
+}
+
+.errors {
+    color: red;
+}
+
+
+.formik button {
+    border: 1px solid;
+
+    &.error {
+        color: red;
+        border-color: red;
+    }
+    &.valid {
+        color: green;
+        border-color: green;
+    }
+}
