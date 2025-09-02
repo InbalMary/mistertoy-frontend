@@ -126,7 +126,7 @@ const resources = {
                 haifa: "Haifa",
                 jerusalem: "Jerusalem"
             },
-            toyDashboard: {
+            dashboard: {
                 title: "Toys Dashboard",
                 avgPrice: "Bar Chart - Average Toys Prices per Label",
                 inStock: "Bar Chart - In Stock Percentage per Label",
@@ -276,7 +276,7 @@ const resources = {
                 haifa: "חיפה",
                 jerusalem: "ירושלים"
             },
-            toyDashboard: {
+            dashboard: {
                 title: "דשבורד הצעצועים",
                 avgPrice: "תרשים עמודות - ממוצע מחירי צעצועים לפי קטגוריה",
                 inStock: "תרשים עמודות - אחוז במלאי לפי קטגוריה",
