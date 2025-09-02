@@ -12,10 +12,11 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField';
+import { useTranslation } from 'react-i18next'
 
 
 export function ToyFilter({ filterBy, onSetFilter }) {
-
+    const { t } = useTranslation()
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     onSetFilter = useRef(utilService.debounce(onSetFilter, 300))
 
@@ -55,7 +56,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     <TextField
                         id="name"
                         name="txt"
-                        label="Search Toy Name.."
+                        label={t("Search Toy Name..")}
                         variant="outlined"
                         // placeholder="By name"
                         value={filterByToEdit.txt}
@@ -67,7 +68,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     <TextField
                         id="price"
                         name="price"
-                        label="Enter Max Price.."
+                        label={t("Enter Max Price..")}
                         type="number"
                         variant="outlined"
                         // placeholder="By max price"
@@ -77,18 +78,18 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
                     <Box sx={{ width: 120 }}>
                         <FormControl fullWidth>
-                            <InputLabel id="inStock-label">In Stock</InputLabel>
+                            <InputLabel id="inStock-label">{t('In Stock')}</InputLabel>
                             <Select
                                 labelId="inStock-label"
                                 id="inStock"
                                 name="inStock"
                                 value={filterByToEdit.inStock === undefined ? '' : filterByToEdit.inStock}
-                                label="In Stock"
+                                label={t('In Stock')}
                                 onChange={handleChange}
                             >
-                                <MenuItem value="">All</MenuItem>
-                                <MenuItem value={true}>Yes</MenuItem>
-                                <MenuItem value={false}>No</MenuItem>
+                                <MenuItem value="">{t('All')}</MenuItem>
+                                <MenuItem value={true}>{t('Yes')}</MenuItem>
+                                <MenuItem value={false}>{t('No')}</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
@@ -118,19 +119,19 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
                     <Box sx={{ width: 120 }}>
                         <FormControl fullWidth>
-                            <InputLabel id="sort-label">Sort by</InputLabel>
+                            <InputLabel id="sort-label">{t('Sort by')}</InputLabel>
                             <Select
                                 labelId="sort-label"
                                 id="sort"
                                 name="sort"
                                 value={filterByToEdit.sort || ''}
-                                label="Sort by"
+                                label={t('Sort by')}
                                 onChange={handleChange}
                             >
-                                <MenuItem value="">None</MenuItem>
-                                <MenuItem value="name">Name</MenuItem>
-                                <MenuItem value="price">Price</MenuItem>
-                                <MenuItem value="createdAt">Created</MenuItem>
+                                <MenuItem value="">{t('None')}</MenuItem>
+                                <MenuItem value="name">{t('Name')}</MenuItem>
+                                <MenuItem value="price">{t('Price')}</MenuItem>
+                                <MenuItem value="createdAt">{t('Created')}</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>

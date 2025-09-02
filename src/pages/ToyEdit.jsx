@@ -3,17 +3,16 @@ import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { saveToy } from "../store/actions/toy.actions.js"
 import { Link, useNavigate, useParams } from "react-router-dom"
-// import { useOnlineStatus } from "../hooks/useOnlineStatusSyncStore.js"
 import { useOnlineStatus } from "../hooks/useOnlineStatus.js"
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
 import { LabelPicker } from '../cmps/LabelPicker.jsx'
 import { LabelMultiSelect } from "../cmps/LabelMultiSelect.jsx"
+import { useTranslation } from 'react-i18next'
 
 import { Button, TextField } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-
 
 function CustomInput(props) {
     return (
@@ -21,19 +20,21 @@ function CustomInput(props) {
     )
 }
 
-const ToySchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    price: Yup.number().min(1, 'Price must be at least 1').required('Price is required'),
-    imgUrl: Yup.string().url('Invalid URL').required('Image URL is required'),
-})
-
 export function ToyEdit() {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const { toyId } = useParams()
 
     const isOnline = useOnlineStatus()
     const setHasUnsavedChanges = useConfirmTabClose()
+
+    // Schema with translations
+    const ToySchema = Yup.object().shape({
+        name: Yup.string().required(t('Name is required')),
+        price: Yup.number().min(1, t('Price must be at least 1')).required(t('Price is required')),
+        imgUrl: Yup.string().url(t('Invalid URL')).required(t('Image URL is required')),
+    })
 
     useEffect(() => {
         if (toyId) loadToy()
@@ -80,19 +81,19 @@ export function ToyEdit() {
 
         saveToy(toyData)
             .then(() => {
-                showSuccessMsg('Toy Saved!')
+                showSuccessMsg(t('Toy Saved!'))
                 setHasUnsavedChanges(false)
                 navigate('/toy')
             })
             .catch(err => {
                 console.log('Had issues in toy details', err)
-                showErrorMsg('Had issues in toy details')
+                showErrorMsg(t('Had issues in toy details'))
             })
     }
 
     return (
         <section className="toy-edit">
-            <h2>{toyToEdit._id ? 'Edit' : 'Add'} Toy</h2>
+            <h2>{toyToEdit._id ? t('Edit Toy') : t('Add Toy')}</h2>
 
             <Formik
                 initialValues={toyToEdit}
@@ -108,14 +109,14 @@ export function ToyEdit() {
                             <div className="form-grid">
                                 <Field
                                     as={CustomInput}
-                                    label="Toy Name"
+                                    label={t("Toy Name")}
                                     name="name"
                                 />
                                 {errors.name && touched.name && <div className="errors">{errors.name}</div>}
 
                                 <Field
                                     as={CustomInput}
-                                    label="Price"
+                                    label={t("Price")}
                                     name="price"
                                     type="number"
                                 />
@@ -123,30 +124,34 @@ export function ToyEdit() {
 
                                 <Field
                                     as={CustomInput}
-                                    label="Image URL"
+                                    label={t("Image URL")}
                                     name="imgUrl"
                                 />
                                 {errors.imgUrl && touched.imgUrl && <div className="errors">{errors.imgUrl}</div>}
 
-                                <LabelMultiSelect
-                                    selectedLabels={values.labels || []}
-                                    onUpdateLabels={(labels) => setFieldValue('labels', labels)}
-                                />
+                                <Box sx={{ width: 222.4 }}>
+                                    <FormControl fullWidth variant="outlined">
+                                        <LabelMultiSelect
+                                            selectedLabels={values.labels || []}
+                                            onUpdateLabels={(labels) => setFieldValue('labels', labels)}
+                                        />
+                                    </FormControl>
+                                </Box>
 
                                 <Box sx={{ width: 222.4 }}>
                                     <FormControl fullWidth variant="outlined">
-                                        <InputLabel id="inStock-label">In Stock</InputLabel>
+                                        <InputLabel id="inStock-label">{t('In Stock')}</InputLabel>
                                         <Select
                                             labelId="inStock-label"
                                             id="inStock"
                                             name="inStock"
                                             value={values.inStock === undefined ? '' : values.inStock}
                                             onChange={(ev) => setFieldValue('inStock', ev.target.value)}
-                                            label="In Stock"
+                                            label={t('In Stock')}
                                         >
-                                            <MenuItem value="">All</MenuItem>
-                                            <MenuItem value={true}>Yes</MenuItem>
-                                            <MenuItem value={false}>No</MenuItem>
+                                            <MenuItem value="">{t('All')}</MenuItem>
+                                            <MenuItem value={true}>{t('Yes')}</MenuItem>
+                                            <MenuItem value={false}>{t('No')}</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Box>
@@ -154,13 +159,13 @@ export function ToyEdit() {
 
                             <div className="actions">
                                 <Button type="submit" variant="contained">
-                                    {toyToEdit._id ? 'Save' : 'Add'}
+                                    {toyToEdit._id ? t('Save') : t('Add')}
                                 </Button>
-                                <Button ><Link to="/toy">Cancel</Link></Button>
+                                <Button><Link to="/toy">{t('Cancel')}</Link></Button>
                             </div>
 
                             <section>
-                                <h1>{isOnline ? '✅ Online' : '❌ Disconnected'}</h1>
+                                <h1>{isOnline ? `✅ ${t('Online')}` : `❌ ${t('Disconnected')}`}</h1>
                             </section>
                         </Form>
                     )

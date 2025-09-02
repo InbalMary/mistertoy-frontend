@@ -6,26 +6,26 @@ import { logout } from '../store/actions/user.actions.js'
 import { TOGGLE_CART_IS_SHOWN } from '../store/reducers/toy.reducer.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { LanguageSwitcher } from './LanguageSwitcher.jsx'
+import { useTranslation } from 'react-i18next'
 
 // const { NavLink } = ReactRouterDOM
 // const { useSelector, useDispatch } = ReactRedux
 
 export function AppHeader() {
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
-    // console.log('user:', user)
 
     function onLogout() {
         logout()
             .then(() => {
-                showSuccessMsg('logout successfully')
+                showSuccessMsg(t('logout successfully'))
             })
             .catch((err) => {
-                showErrorMsg('OOPs try again')
+                showErrorMsg(t('OOPs try again'))
             })
     }
-
-
 
     function onToggleCart(ev) {
         ev.preventDefault()
@@ -35,25 +35,27 @@ export function AppHeader() {
     return (
         <header className="app-header full main-layout">
             <section className="header-container">
-                <h1>React Toy App!</h1>
+                <h1>{t('React Toy App!')}</h1>
                 <nav className="app-nav">
-                    <NavLink to="/" >Home</NavLink>
-                    <NavLink to="/about" >About</NavLink>
-                    <NavLink to="/toy" >Toys</NavLink>
-                    <NavLink to="/dashboard" >Dashboard</NavLink>
-                    <a onClick={onToggleCart} href="#">🛒 Cart</a>
+                    <NavLink to="/">{t('Home')}</NavLink>
+                    <NavLink to="/about">{t('About')}</NavLink>
+                    <NavLink to="/toy">{t('Toys')}</NavLink>
+                    <NavLink to="/dashboard">{t('Dashboard')}</NavLink>
+                    <a onClick={onToggleCart} href="#">🛒 {t('Cart')}</a>
                 </nav>
             </section>
             {user ? (
-                < section >
-                    <span to={`/user/${user._id}`}>Hello {user.fullname} <span>${user.score.toLocaleString()}</span></span>
-                    <button onClick={onLogout}>Logout</button>
-                </ section >
+                <section>
+                    <span to={`/user/${user._id}`}>{t('Hello')} {user.fullname} <span>${user.score.toLocaleString()}</span></span>
+                    <button onClick={onLogout}>{t('Logout')}</button>
+                </section>
             ) : (
                 <section>
                     <LoginSignup />
                 </section>
             )}
+
+            <LanguageSwitcher />
             <UserMsg />
         </header>
     )
