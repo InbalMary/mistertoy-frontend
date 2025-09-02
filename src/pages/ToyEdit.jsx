@@ -133,7 +133,7 @@ export function ToyEdit() {
                                     onUpdateLabels={(labels) => setFieldValue('labels', labels)}
                                 />
 
-                                <Box sx={{ width: 200 }}>
+                                <Box sx={{ width: 222.4 }}>
                                     <FormControl fullWidth variant="outlined">
                                         <InputLabel id="inStock-label">In Stock</InputLabel>
                                         <Select

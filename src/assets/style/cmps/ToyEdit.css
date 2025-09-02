@@ -22,5 +22,5 @@
 .toy-edit .form-grid {
   display: grid;
   gap: 16px;
-  justify-items: start;
+  justify-items: center;
 }

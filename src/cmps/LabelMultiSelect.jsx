@@ -35,7 +35,7 @@ export function LabelMultiSelect({ selectedLabels = [], onUpdateLabels }) {
     const safeSelectedLabels = Array.isArray(selectedLabels) ? selectedLabels : []
 
     return (
-        <FormControl sx={{ m: 1, width: 150 }}>
+        <FormControl sx={{ m: 1, width: 222.4 }}>
             <InputLabel id="label-multi-select-label">Labels</InputLabel>
             <Select
                 labelId="label-multi-select-label"
