@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { userService } from "../services/user.service.js"
 import { Link, useNavigate, useParams } from "react-router-dom"
+import { useTranslation } from 'react-i18next'
 
 // const { useEffect, useState } = React
 // const { Link, useParams, useNavigate } = ReactRouterDOM
@@ -10,6 +11,7 @@ export function UserDetails() {
     const [user, setUser] = useState(null)
     const { userId } = useParams()
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (userId) loadUser()
@@ -34,16 +36,19 @@ export function UserDetails() {
     const isMyProfile = loggedInUser._id === userId
     return (
         <section className="user-details">
-            <h1>Fullname: {user.fullname}</h1>
-            <h5>Score: {user.score}</h5>
+            <h1>{t('user.fullname')}: {user.fullname}</h1>
+            <h5>{t('user.score')}: {user.score}</h5>
+
             {isMyProfile && (
                 <section>
-                    <h2>My Stuff!</h2>
+                    <h2>{t('user.myStuff')}</h2>
                 </section>
             )}
+
             <p>@</p>
-            <p>User is so lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi voluptas cumque tempore, aperiam sed dolorum rem! Nemo quidem, placeat perferendis tempora aspernatur sit, explicabo veritatis corrupti perspiciatis repellat, enim quibusdam!</p>
-            <Link to="/">Home</Link>
+            <p>{t('user.description')}</p>
+
+            <Link to="/">{t('home')}</Link>
         </section>
     )
 }

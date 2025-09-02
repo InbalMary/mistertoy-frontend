@@ -47,3 +47,7 @@ object {
 a.active {
   text-decoration: underline;
 }
+
+:lang(he) {
+    font-family: 'Rubik', sans-serif;
+}

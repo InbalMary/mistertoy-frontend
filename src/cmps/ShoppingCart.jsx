@@ -6,15 +6,15 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { userService } from '../services/user.service.js'
 import { checkout } from '../store/actions/user.actions.js'
 import { REMOVE_TOY_FROM_CART } from '../store/reducers/toy.reducer.js'
+import { useTranslation } from 'react-i18next'
 
 export function ShoppingCart({ isCartShown }) {
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const shoppingCart = useSelector(storeState => storeState.toyModule.shoppingCart)
     const user = useSelector(storeState => storeState.userModule.loggedInUser)
 
-
     function removeFromCart(toyId) {
-        console.log(`Todo: remove: ${toyId} from cart`)
         dispatch({ type: REMOVE_TOY_FROM_CART, toyId })
     }
 
@@ -24,13 +24,12 @@ export function ShoppingCart({ isCartShown }) {
 
     function onCheckout() {
         const amount = getCartTotal()
-        // DONE: checkout function that dispatch
         checkout(amount)
             .then(()=>{
-                showSuccessMsg(`Charged you: $ ${amount.toLocaleString()}`)
+                showSuccessMsg(`${t("Charged you")}: $ ${amount.toLocaleString()}`)
             })
             .catch(()=>{
-                showErrorMsg('There was a problem checking out!')
+                showErrorMsg(t("There was a problem checking out!"))
             })
     }
 
@@ -38,19 +37,17 @@ export function ShoppingCart({ isCartShown }) {
     const total = getCartTotal()
     return (
         <section className="cart" >
-            <h5>Your Cart</h5>
+            <h5>{t("Your Cart")}</h5>
             <ul>
                 {
                     shoppingCart.map((toy, idx) => <li key={idx}>
-                        <button onClick={() => {
-                            removeFromCart(toy._id)
-                        }}>x</button>
+                        <button onClick={() => removeFromCart(toy._id)}>x</button>
                         {toy.vendor} | ${toy.price}
                     </li>)
                 }
             </ul>
-            <p>Total: ${total} </p>
-            <button disabled={!user || !total} onClick={onCheckout}>Checkout</button>
+            <p>{t("Total")}: ${total} </p>
+            <button disabled={!user || !total} onClick={onCheckout}>{t("Checkout")}</button>
         </section>
     )
 }

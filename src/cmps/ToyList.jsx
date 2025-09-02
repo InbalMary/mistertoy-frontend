@@ -1,6 +1,10 @@
 import { ToyPreview } from "./ToyPreview.jsx"
 
+import { useTranslation } from 'react-i18next'
+
 export function ToyList({ toys, onRemoveToy, onEditToy, addToCart }) {
+    const { t } = useTranslation()
+
     return (
         <ul className="toy-list">
             {toys.map(toy =>
@@ -13,7 +17,7 @@ export function ToyList({ toys, onRemoveToy, onEditToy, addToCart }) {
                     </div>
 
                     <button className="buy" onClick={() => addToCart(toy)}>
-                        Add to Cart
+                        {t("Add to Cart")}
                     </button>
                 </li>)}
         </ul>

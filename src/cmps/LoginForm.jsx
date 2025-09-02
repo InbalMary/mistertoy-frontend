@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { userService } from "../services/user.service.js"
-
+import { useTranslation } from "react-i18next"
 
 export function LoginForm({ onLogin, isSignup }) {
-
+    const { t } = useTranslation()
     const [credentials, setCredentials] = useState(userService.getEmptyCredentials())
 
     function handleChange({ target }) {
@@ -22,7 +22,7 @@ export function LoginForm({ onLogin, isSignup }) {
                 type="text"
                 name="username"
                 value={credentials.username}
-                placeholder="Username"
+                placeholder={t("Username")}
                 onChange={handleChange}
                 required
             />
@@ -30,7 +30,7 @@ export function LoginForm({ onLogin, isSignup }) {
                 type="password"
                 name="password"
                 value={credentials.password}
-                placeholder="Password"
+                placeholder={t("Password")}
                 onChange={handleChange}
                 required
                 autoComplete="off"
@@ -39,11 +39,11 @@ export function LoginForm({ onLogin, isSignup }) {
                 type="text"
                 name="fullname"
                 value={credentials.fullname}
-                placeholder="Full name"
+                placeholder={t("Full name")}
                 onChange={handleChange}
                 required
             />}
-            <button>{isSignup ? 'Signup' : 'Login'}</button>
+            <button>{isSignup ? t("Signup") : t("Login")}</button>
         </form>
     )
 }

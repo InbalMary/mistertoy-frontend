@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import { toyService } from '../services/toy.service';
 import { utilService } from '../services/util.service';
+import { useTranslation } from 'react-i18next'
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, TimeScale);
 
@@ -12,6 +13,7 @@ export function ToyDashboard() {
     const [lineData, setLineData] = useState(null)
     const [pieData, setPieData] = useState(null)
     const [toyCount, setToyCount] = useState(0)
+    const { t } = useTranslation()
 
     useEffect(() => {
         Promise.all([toyService.query(), toyService.getStatsPerLabel()])
@@ -126,18 +128,18 @@ export function ToyDashboard() {
 
     return (
         <section className="my-chart">
-            <h2>Toys Dashboard</h2>
+            <h2>{t('dashboard.title')}</h2>
 
-            <h1>Bar Chart - Average Toys Prices per Label</h1>
+            <h1>{t('dashboard.avgPrice')}</h1>
             <Bar data={avgPriceData} />
 
-            <h1>Bar Chart - In Stock Percentage per Label</h1>
+            <h1>{t('dashboard.inStock')}</h1>
             <Bar data={inventoryData} />
 
-            <h1>Line Chart - Random Values Over Time</h1>
+            <h1>{t('dashboard.randomValues')}</h1>
             <Line data={lineData} />
 
-            <h1>Pie Chart - Total Toys per Label</h1>
+            <h1>{t('dashboard.totalToys')}</h1>
             <Pie data={pieData} />
         </section>
     )

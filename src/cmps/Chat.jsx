@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
+import { useTranslation } from "react-i18next"
 
 
 export function Chat() {
     const [msgs, setMsgs] = useState([])
     const [input, setInput] = useState('')
     const msgsRef = useRef()
+    const { t } = useTranslation()
 
     useEffect(() => {
         if (msgsRef.current) {
@@ -45,7 +47,7 @@ export function Chat() {
                     <div key={idx} className={`message ${msg.from === from ? 'user' : 'other'}`}>
                         <section>
                             <span className="timestamp">{msg.timestamp}</span>
-                            <h3>{msg.from === 'user' ? 'You' : msg.from}: </h3>
+                            <h3>{msg.from === 'user' ? t('chat.you') : msg.from}: </h3>
                         </section>
                         <p>{msg.text}</p>
                     </div>
@@ -57,9 +59,9 @@ export function Chat() {
                     value={input}
                     onChange={(ev) => setInput(ev.target.value)}
                     onKeyDown={handleKey}
-                    placeholder="Type a message..."
+                    placeholder={t('chat.placeholder')}
                 />
-                <button type="submit">Send 📩</button>
+                <button type="submit">{t('chat.send')}</button>
             </form>
         </div>
     )

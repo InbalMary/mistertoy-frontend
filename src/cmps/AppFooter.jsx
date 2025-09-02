@@ -7,6 +7,7 @@ import { AccordionGroup } from './AccordionGroup.jsx'
 import { AccordionItem } from './AccordionItem.jsx'
 import { userService } from '../services/user.service.js'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export function AppFooter() {
     const dispatch = useDispatch()
@@ -14,6 +15,7 @@ export function AppFooter() {
     // const count = useSelector(storeState => storeState.userModule.count)
     const toysLength = useSelector(storeState => storeState.toyModule.toys.length)
     const shoppingCartLength = useSelector(storeState => storeState.toyModule.shoppingCart.length)
+    const { t } = useTranslation()
 
     const [users, setUsers] = useState([])
 
@@ -26,34 +28,31 @@ export function AppFooter() {
     return (
         <footer className='app-footer'>
             <h5>
-                Currently {toysLength} toys in the shop
+                {t('Currently')} {toysLength} {t('toys in the shop')}
             </h5>
             <p>
-                Coffeerights to all - 2025
+                {t('Coffeerights to all - 2025')}
             </p>
-            <h5>
-                <span>{shoppingCartLength}</span> Products in your Cart
-                <a href="#" onClick={(ev) => {
-                    ev.preventDefault()
-                    dispatch({ type: TOGGLE_CART_IS_SHOWN })
-                }}>
-                    ({(isCartShown) ? 'hide' : 'show'})
-                </a>
+            <h5
+                style={{ cursor: 'pointer' }}
+                onClick={() => dispatch({ type: TOGGLE_CART_IS_SHOWN })}
+            >
+                <span>{shoppingCartLength}</span> {t('Products in your Cart')}
             </h5>
             <ShoppingCart isCartShown={isCartShown} />
             <UserMsg />
 
             <AccordionGroup>
                 <AccordionItem title="The Team" >
-                    <h2>Our team is here</h2>
+                    <h2>{t('Our team is here')}</h2>
                     <p>Lorem ipsum</p>
                 </AccordionItem>
                 <AccordionItem title="About us" >
-                    <h2>We are great</h2>
+                    <h2>{t('We are great')}</h2>
                     <p>Lorem ipsum</p>
                 </AccordionItem>
                 <AccordionItem title="About you" >
-                    <h2>You are great</h2>
+                    <h2>{t('You are great')}</h2>
                     <p>Lorem ipsum</p>
                 </AccordionItem>
                 {users && users.length > 0 ? (
@@ -66,7 +65,7 @@ export function AppFooter() {
                     </AccordionItem>
                 ) : (
                     <AccordionItem title="All Users">
-                        <p>No users found</p>
+                        <p>{t('No users found')}</p>
                     </AccordionItem>
                 )}
 

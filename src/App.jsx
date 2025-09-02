@@ -19,6 +19,7 @@ import { ToyEdit } from './pages/ToyEdit.jsx'
 import { ToyDetails } from './pages/ToyDetails.jsx'
 import { UserDetails } from './pages/UserDetails.jsx'
 import { ToyDashboard } from './pages/ToyDashboard.jsx'
+import i18n from './i18n/i18n.js';
 
 
 export default function App() {
@@ -26,7 +27,7 @@ export default function App() {
     return (
         <Provider store={store}>
             <Router>
-                <section className="app">
+                <section className={`app`} lang={i18n.language}>
                     <AppHeader />
                     <main className='main-layout'>
                         <Routes>

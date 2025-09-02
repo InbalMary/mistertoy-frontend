@@ -7,6 +7,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Select from '@mui/material/Select'
 import Checkbox from '@mui/material/Checkbox'
 import { toyService } from '../services/toy.service.js'
+import { useTranslation } from "react-i18next"
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -21,6 +22,7 @@ const MenuProps = {
 
 export function LabelMultiSelect({ selectedLabels = [], onUpdateLabels }) {
     const [allLabels, setAllLabels] = useState([])
+    const { t } = useTranslation()
 
     useEffect(() => {
         toyService.getToyLabels().then(setAllLabels)
@@ -36,7 +38,7 @@ export function LabelMultiSelect({ selectedLabels = [], onUpdateLabels }) {
 
     return (
         <FormControl sx={{ m: 1, width: 222.4 }}>
-            <InputLabel id="label-multi-select-label">Labels</InputLabel>
+            <InputLabel id="label-multi-select-label">{t("Labels")}</InputLabel>
             <Select
                 labelId="label-multi-select-label"
                 id="label-multi-select"

@@ -12,7 +12,7 @@ import { toyService } from '../services/toy.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { loadToys, removeToy, removeToyOptimistic, saveToy, setFilterBy } from '../store/actions/toy.actions.js'
 import { ADD_TOY_TO_CART } from '../store/reducers/toy.reducer.js'
-
+import { useTranslation } from 'react-i18next'
 
 export function ToyIndex() {
 
@@ -20,6 +20,7 @@ export function ToyIndex() {
     const toys = useSelector(storeState => storeState.toyModule.toys)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+    const { t } = useTranslation()
 
     useEffect(() => {
         loadToys()
@@ -27,7 +28,7 @@ export function ToyIndex() {
                 showErrorMsg('Cannot load toys!')
             })
     }, [filterBy])
-    
+
     function onSetFilter(filterBy) {
         setFilterBy(filterBy)
     }
@@ -52,7 +53,7 @@ export function ToyIndex() {
                 showErrorMsg('Cannot add toy')
             })
     }
-    
+
     function onEditToy(toy) {
         const price = +prompt('New price?')
         const cartoSave = { ...toy, price }
@@ -73,13 +74,17 @@ export function ToyIndex() {
     }
     console.log('Index Render')
 
-    return (
+    return(
         <div>
-            <h3>Toys App</h3>
+            <h3>{t('toyIndex.title')}</h3>
             <main>
-                <Link to="/toy/edit">Add Toy</Link>
-                <button className='add-btn' onClick={onAddToy}>Add Random Toy 🧩</button>
+                <Link to="/toy/edit">{t('toyIndex.addToy')}</Link>
+                <button className='add-btn' onClick={onAddToy}>
+                    {t('toyIndex.addRandom')} 🧩
+                </button>
+
                 <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+
                 {!isLoading
                     ? <ToyList
                         toys={toys}
@@ -87,7 +92,7 @@ export function ToyIndex() {
                         onEditToy={onEditToy}
                         addToCart={addToCart}
                     />
-                    : <div>Loading...</div>
+                    : <div>{t('loading')}</div>
                 }
                 <hr />
             </main>
