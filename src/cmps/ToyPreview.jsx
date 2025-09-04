@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
+import { ToyImg } from "./ToyImg";
 
 export function ToyPreview({ toy }) {
     const { t } = useTranslation()
@@ -7,7 +8,9 @@ export function ToyPreview({ toy }) {
     return (
         <article>
             <h4>{toy.name}</h4>
-            <img src={toy.imgUrl} alt="" />
+            <ToyImg title={toy.name} src={toy.imgUrl}>
+                <div className="skeleton-loader"></div>
+            </ToyImg>
             <p>{t('Price')}: <span>${toy.price.toLocaleString()}</span></p>
             <h5>{t('Created At')}: {createdAt}</h5>
             {toy.owner && <p>{t('Owner')}: <Link to={`/user/${toy.owner._id}`}>{toy.owner.fullname}</Link></p>}

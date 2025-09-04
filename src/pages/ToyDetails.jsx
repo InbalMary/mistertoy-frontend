@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import { PopUp } from "../cmps/PopUp.jsx"
 import { Chat } from "../cmps/Chat.jsx"
 import { useTranslation } from 'react-i18next'
+import { ToyImg } from "../cmps/ToyImg.jsx"
 
 // const { useEffect, useState } = React
 // const { Link, useParams } = ReactRouterDOM
@@ -40,7 +41,9 @@ export function ToyDetails() {
             </h5>
             <h5>{t('Labels')}: {toy.labels.join(', ')}</h5>
 
-            <img src={toy.imgUrl} alt={toy.name} />
+            <ToyImg title={toy.name} src={toy.imgUrl}>
+                <div className="skeleton-loader"></div>
+            </ToyImg>
             <h5>{t('Our toys are crafted with the highest standards of safety and durability. Each product is carefully tested to ensure long-lasting fun for children of all ages. We take pride in offering toys that inspire creativity, learning, and joyful play.')}</h5>
 
             <div className="action-btns">

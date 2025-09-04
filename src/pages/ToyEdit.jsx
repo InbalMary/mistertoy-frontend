@@ -111,23 +111,29 @@ export function ToyEdit() {
                                     as={CustomInput}
                                     label={t("Toy Name")}
                                     name="name"
+                                    error={touched.name && !!errors.name}
+                                    helperText={touched.name && errors.name}
                                 />
-                                {errors.name && touched.name && <div className="errors">{errors.name}</div>}
+                                {/* {errors.name && touched.name && <div className="errors">{errors.name}</div>} */}
 
                                 <Field
                                     as={CustomInput}
                                     label={t("Price")}
                                     name="price"
                                     type="number"
+                                    error={touched.price && !!errors.price}
+                                    helperText={touched.price && errors.price}
                                 />
-                                {errors.price && touched.price && <div className="errors">{errors.price}</div>}
+                                {/* {errors.price && touched.price && <div className="errors">{errors.price}</div>} */}
 
                                 <Field
                                     as={CustomInput}
                                     label={t("Image URL")}
                                     name="imgUrl"
+                                    error={touched.imgUrl && !!errors.imgUrl}
+                                    helperText={touched.imgUrl && errors.imgUrl}
                                 />
-                                {errors.imgUrl && touched.imgUrl && <div className="errors">{errors.imgUrl}</div>}
+                                {/* {errors.imgUrl && touched.imgUrl && <div className="errors">{errors.imgUrl}</div>} */}
 
                                 <Box sx={{ width: 222.4 }}>
                                     <FormControl fullWidth variant="outlined">
