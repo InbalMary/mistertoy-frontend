@@ -11,7 +11,9 @@ export const userService = {
     getLoggedinUser,
     updateScore,
     getEmptyCredentials,
-    query
+    query,
+    getToyLabels,
+    getStatsPerLabel,
 }
 
 function query() {
@@ -83,4 +85,10 @@ function getEmptyCredentials() {
 // userService.login({username: 'bobo', password: 'bobo'})
 
 
+function getToyLabels() {
+    return storageService.getLabels()
+}
 
+function getStatsPerLabel() {
+    return storageService.getLabelStats()
+}
