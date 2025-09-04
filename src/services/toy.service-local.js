@@ -21,7 +21,9 @@ export const toyService = {
     remove,
     getEmptyToy,
     getRandomToy,
-    getDefaultFilter
+    getDefaultFilter,
+    getToyLabels,
+    getStatsPerLabel
 }
 
 function query(filterBy = {}) {
@@ -31,7 +33,7 @@ function query(filterBy = {}) {
             if (!filterBy.price) filterBy.price = Infinity
             const inStockFilter = filterBy.inStock === 'true' ? true
                 : filterBy.inStock === 'false' ? false
-                : undefined
+                    : undefined
             const regExp = new RegExp(filterBy.txt, 'i')
             let filteredToys = toys.filter(toy =>
                 regExp.test(toy.name) &&
@@ -157,3 +159,59 @@ function _setNextPrevToyId(toy) {
 // storageService.post(STORAGE_KEY, {vendor: 'Subali Rahok 6', price: 980}).then(x => console.log(x))
 
 
+//////////////////////////////////////////
+
+async function getToyLabels() {
+    const toys = await query('toys')
+    const uniqueLabels = []
+
+    toys.forEach(toy => {
+        if (Array.isArray(toy.labels)) {
+            toy.labels.forEach(label => {
+                if (!uniqueLabels.includes(label)) {
+                    uniqueLabels.push(label)
+                }
+            })
+        }
+    })
+
+    return uniqueLabels
+}
+
+async function getStatsPerLabel() {
+    const toys = await query('toys')
+    const labelStats = toys.reduce((acc, toy) => {
+        if (!Array.isArray(toy.labels)) return acc
+
+        toy.labels.forEach(label => {
+            if (!acc[label]) {
+                acc[label] = {
+                    prices: [],
+                    avgPrice: 0,
+                    total: 0,
+                    inStock: 0,
+                    percent: 0
+                }
+            }
+            acc[label].prices.push(toy.price)
+
+            acc[label].total++
+            if (toy.inStock === true || toy.inStock === 'true') {
+                acc[label].inStock++
+            }
+        })
+
+        return acc
+    }, {})
+
+    for (const label in labelStats) {
+        const stat = labelStats[label]
+
+        const avg = stat.prices.reduce((sum, p) => sum + p, 0) / stat.prices.length
+        stat.avgPrice = +avg.toFixed(2)
+
+        stat.percent = +((stat.inStock / stat.total) * 100).toFixed(2)
+    }
+
+    return labelStats
+} 

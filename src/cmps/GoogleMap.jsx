@@ -8,8 +8,7 @@ export function GoogleMap({ branches }) {
     const [infoContent, setInfoContent] = useState(null)
     const mapRef = useRef()
     const API_KEY = import.meta.env.VITE_API_KEY
-    
-    console.log('API_KEY', API_KEY)
+
     function handleMapClick(ev) {
         const { latLng } = ev.detail
         ev.map.panTo(latLng)
