@@ -1,13 +1,15 @@
 import { AdvancedMarker, APIProvider, InfoWindow, Map, Pin, useAdvancedMarkerRef } from '@vis.gl/react-google-maps';
 import { useRef, useState } from 'react';
-const API_KEY = 'AIzaSyA5YAKbctMWmj2etXv-KY7MSXDMGaWr0qs'
+
 
 export function GoogleMap({ branches }) {
     const [coords, setCoords] = useState({ lat: 32.0853, lng: 34.7818 })
     const [isInfoOpen, setIsInfoOpen] = useState(false)
     const [infoContent, setInfoContent] = useState(null)
     const mapRef = useRef()
-
+    const API_KEY = import.meta.env.VITE_API_KEY
+    
+    console.log('API_KEY', API_KEY)
     function handleMapClick(ev) {
         const { latLng } = ev.detail
         ev.map.panTo(latLng)

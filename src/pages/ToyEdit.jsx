@@ -40,13 +40,14 @@ export function ToyEdit() {
         if (toyId) loadToy()
     }, [])
 
-    function loadToy() {
-        toyService.getById(toyId)
-            .then(toy => setToyToEdit(toy))
-            .catch(err => {
-                console.log('Had issues in toy edit', err)
-                navigate('/toy')
-            })
+    async function loadToy() {
+        try {
+            const toy = await toyService.getById(toyId)
+            setToyToEdit(toy)
+        } catch (err) {
+            console.log('Had issues in toy edit', err)
+            navigate('/toy')
+        }
     }
 
     function formValidationClass(errors, touched) {
@@ -75,20 +76,18 @@ export function ToyEdit() {
         })
     }
 
-    function onSaveToy(values) {
+    async function onSaveToy(values) {
         const toyData = { ...toyToEdit, ...values }
         if (!toyData.price) toyData.price = 1000
-
-        saveToy(toyData)
-            .then(() => {
-                showSuccessMsg(t('Toy Saved!'))
-                setHasUnsavedChanges(false)
-                navigate('/toy')
-            })
-            .catch(err => {
-                console.log('Had issues in toy details', err)
-                showErrorMsg(t('Had issues in toy details'))
-            })
+        try {
+            await saveToy(toyData)
+            showSuccessMsg(t('Toy Saved!'))
+            setHasUnsavedChanges(false)
+            navigate('/toy')
+        } catch (err) {
+            console.log('Had issues in toy details', err)
+            showErrorMsg(t('Had issues in toy details'))
+        }
     }
 
     return (

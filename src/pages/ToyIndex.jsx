@@ -33,38 +33,38 @@ export function ToyIndex() {
         setFilterBy(filterBy)
     }
 
-    function onRemoveToy(toyId) {
-        removeToyOptimistic(toyId)
-            .then(() => {
-                showSuccessMsg('Toy removed')
-            })
-            .catch(err => {
-                showErrorMsg('Cannot remove toy')
-            })
+    async function onRemoveToy(toyId) {
+        try {
+            await removeToyOptimistic(toyId)
+            showSuccessMsg('Toy removed')
+        } catch (err) {
+            console.log('err', err)
+            showErrorMsg('Cannot remove toy')
+        }
     }
 
-    function onAddToy() {
-        const cartoSave = toyService.getRandomToy()
-        saveToy(cartoSave)
-            .then((savedToy) => {
-                showSuccessMsg(`Toy added (id: ${savedToy._id})`)
-            })
-            .catch(err => {
-                showErrorMsg('Cannot add toy')
-            })
+    async function onAddToy() {
+        try {
+            const cartoSave = toyService.getRandomToy()
+            const savedToy = await saveToy(cartoSave)
+            showSuccessMsg(`Toy added (id: ${savedToy._id})`)
+        } catch (err) {
+            console.log('err', err)
+            showErrorMsg('Cannot add toy')
+        }
     }
 
-    function onEditToy(toy) {
+    async function onEditToy(toy) {
         const price = +prompt('New price?')
         const cartoSave = { ...toy, price }
 
-        saveToy(cartoSave)
-            .then((savedToy) => {
-                showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
-            })
-            .catch(err => {
-                showErrorMsg('Cannot update toy')
-            })
+        try {
+            const savedToy = await saveToy(cartoSave)
+            showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
+        } catch (err) {
+            console.log('err', err)
+            showErrorMsg('Cannot updated toy')
+        }
     }
 
     function addToCart(toy) {
@@ -74,7 +74,7 @@ export function ToyIndex() {
     }
     console.log('Index Render')
 
-    return(
+    return (
         <div>
             <h3>{t('toyIndex.title')}</h3>
             <main>

@@ -3,32 +3,34 @@ import { useEffect, useState } from 'react';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import { toyService } from '../services/toy.service';
 import { utilService } from '../services/util.service';
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, LineElement, PointElement, TimeScale);
 
 export function ToyDashboard() {
-    const [avgPriceData, setAvgPriceData] = useState(null)
-    const [inventoryData, setInventoryData] = useState(null)
-    const [lineData, setLineData] = useState(null)
-    const [pieData, setPieData] = useState(null)
-    const [toyCount, setToyCount] = useState(0)
-    const { t } = useTranslation()
+    const [avgPriceData, setAvgPriceData] = useState(null);
+    const [inventoryData, setInventoryData] = useState(null);
+    const [lineData, setLineData] = useState(null);
+    const [pieData, setPieData] = useState(null);
+    const [toyCount, setToyCount] = useState(0);
+    const { t } = useTranslation();
 
     useEffect(() => {
-        Promise.all([toyService.query(), toyService.getStatsPerLabel()])
-            .then(([toys, statsMap]) => {
+        async function loadDashboardData() {
+            try {
+                const [toys, statsMap] = await Promise.all([
+                    toyService.query(),
+                    toyService.getStatsPerLabel()
+                ])
+
                 const toyCount = toys.length
                 setToyCount(toyCount)
 
-                const labels = Object.keys(statsMap)
+                const labels = Object.keys(statsMap);
                 const avgPrices = labels.map(label => statsMap[label].avgPrice)
                 const inStockPercentages = labels.map(label => statsMap[label].percent)
+                const percentagePerLabel = labels.map(label => ((statsMap[label].total / toyCount) * 100).toFixed(2))
 
-                const percentagePerLabel = labels.map(label => {
-                    const labelTotal = statsMap[label].total
-                    return ((labelTotal / toyCount) * 100).toFixed(2)
-                })
                 setAvgPriceData({
                     labels,
                     datasets: [
@@ -98,30 +100,35 @@ export function ToyDashboard() {
                                 'rgba(255, 159, 64, 0.5)',
                                 'rgba(0, 200, 83, 0.5)',
                                 'rgba(255, 87, 34, 0.5)',
-
                             ],
                             borderWidth: 1,
                         },
                     ],
                 })
-            })
 
-        const datesLabels = Array.from({ length: 7 }, () => utilService.getRandomDate(30))
-        const values = datesLabels.map(() => Math.floor(Math.random() * 100) + 10)
+                // Random line data
+                const datesLabels = Array.from({ length: 7 }, () => utilService.getRandomDate(30))
+                const values = datesLabels.map(() => Math.floor(Math.random() * 100) + 10)
+                setLineData({
+                    labels: datesLabels,
+                    datasets: [
+                        {
+                            label: 'Random Values Over Time',
+                            data: values,
+                            fill: false,
+                            borderColor: 'rgba(75,192,192,1)',
+                            backgroundColor: 'rgba(75,192,192,0.2)',
+                            tension: 0.3
+                        }
+                    ]
+                })
 
-        setLineData({
-            labels: datesLabels,
-            datasets: [
-                {
-                    label: 'Random Values Over Time',
-                    data: values,
-                    fill: false,
-                    borderColor: 'rgba(75,192,192,1)',
-                    backgroundColor: 'rgba(75,192,192,0.2)',
-                    tension: 0.3
-                }
-            ]
-        })
+            } catch (err) {
+                console.error('Failed to load dashboard data', err)
+            }
+        }
+
+        loadDashboardData()
     }, [])
 
     if (!avgPriceData || !inventoryData || !lineData || !pieData) return <div>Loading...</div>
