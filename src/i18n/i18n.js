@@ -136,7 +136,7 @@ const resources = {
             toyIndex: {
                 title: "Toys App",
                 addToy: "Add Toy",
-                addRandom: "Add Random Toy 🧩"
+                addRandom: "Add Random Toy"
             },
             user: {
                 fullname: "Fullname",
@@ -286,7 +286,7 @@ const resources = {
             toyIndex: {
                 title: "אפליקציית צעצועים",
                 addToy: "הוסף צעצוע",
-                addRandom: "הוסף צעצוע אקראי 🧩"
+                addRandom: "הוסף צעצוע אקראי"
             },
             user: {
                 fullname: "שם מלא",
